@@ -1,0 +1,90 @@
+---
+title: "R Exercises (Sololearn)"
+author: "Pierluigi De Rogatis"
+date: "09/02/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# These are the short projects that the Sololearn platform requires to submit alone for the delivery of the certification for "R language programming". Besides these, I was also engaged in assisted exercises, small lectures, and final quizzes to assess and improve the understanding of R. 
+```
+
+```{r}
+
+# Firstly, it will be advisable to clean the console and the environment from previously used data and values by using the following functions:
+
+rm(list=ls(all=TRUE)) 
+cat("\014")
+
+```
+
+
+# 1. THE GREATEST NUMBER
+```{r}
+
+# Aim to output the maximum number out of the inputs
+# Firstly, I stored the value inside a vector called "input". Then, I used the "print" function to print the result and the "max" function to individuate the maximum value inside the vector. Hence:
+
+input <- c(32, 945, 37, 598, 845, 821, 5, 53, 6)
+print(max(input))
+
+```
+
+
+# 2. SUM IN RANGE
+```{r}
+
+# Aim to create a function that takes two parameters and return the sum of all numbers between the two parameters.
+# Firstly, I created the function and inserted two parameters (x and y) as general ones. Inside the code block, I used the "sum" function to sum all the numbers between x and y, represented by the shortcut "x:y". Finally, I tried to use the function and print the result. Thus:
+
+sum_range <- function(x, y){
+  sum(x:y)
+}
+
+sum_result <- sum_range(12, 87)
+print(sum_result)
+
+```
+
+
+# 3. GRADE ANALYSIS
+```{r}
+
+# Aim to analyse a dataset with students' grades and output the number of students with a grade higher than the input.
+# Firstly, I created the data frame based on 20 students and 20 randomly assigned grades. To randomly assign the grades, I firstly used the "runif" function to create 20 (first argument) random grades between 0 ("min" argument) and 100 ("max" argument). Then, I used the "round" function to round each number into an integer. After that, I created an object "low_grade" to have a randomly assigned grade to compare the number of students with higher grades. Afterwards, I implemented the "subset" function to create a different dataset with only the students with higher grades than the low_grade. Finally, I used the "length" function to display the number of students with higher marks. Thus:
+
+grades <- data.frame("id" = c(1:20),
+                     "grade" = round(runif(20, min = 0, max = 100)))
+
+low_grade <- round(runif(1, min = 0, max = 100))
+grade_higher <- subset(grades, grade > low_grade)
+print(length(grade_higher$grade))
+
+```
+
+
+# 4. TITANIC SURVIVORS
+```{r}
+
+# Aim to understand how the class of the ticket impacted the adult survival rate
+# Firstly, I imported the dataset using the "read.csv" function. Then, I quickly analysed the dataset using the "summary" and "head" functions. After that, I used the "subset" function to create an alternative dataset with only adults (age >= 18). Finally, I used the pipe function to logically connect the functions "group_by" (to group the data based on their passenger class) and "summarise" (to summarise the result based on the mean value of survived). Indeed, I multiplied by 100 the results to have the percentages since survived is a dichotomous variable between 1 and 0. Thus:
+
+titanic_data <- read.csv("C:/Users/pierl/Desktop/GV900 Offline/titanic.csv")
+
+summary(titanic_data)
+head(titanic_data)
+
+library(dplyr)
+adult_class <- subset(titanic_data, age >= 18)
+adult_class %>% group_by(pclass) %>% summarise(percentage_survived = mean(survived)*100)
+
+# Otherwise, I inverted the process, grouping the data based on the survival and then creating a mean based on the class. However, this process does not give any manageable insight into the trends/correlation between survival rate and class tickets. However, I inserted it since this was the required assignment in the Sololearn platform. Hence: 
+
+survived_data <- subset(titanic_data, age >= 18)
+survived_data %>% group_by(survived) %>% summarise(propability_class = mean(pclass))
+
+```
